@@ -71,6 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+        // Immediately refresh activities list to show new participant
+        await fetchActivities();
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
@@ -90,6 +92,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Unregister participant on delete icon click
+  document.querySelectorAll('.participants-list').forEach(function(list) {
+    list.addEventListener('click', function(e) {
+      if (e.target.classList.contains('delete-icon')) {
+        const participantElem = e.target.closest('.participant');
+        if (participantElem) {
+          participantElem.remove();
+        }
+      }
+    });
+  });
   // Initialize app
   fetchActivities();
 });
